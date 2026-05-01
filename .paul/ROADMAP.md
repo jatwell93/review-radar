@@ -14,7 +14,7 @@ Phases: 0 of 1 complete
 
 | Phase | Name | Plans | Status | Completed |
 |-------|------|-------|--------|-----------|
-| 1 | Free Tier MVP | 5 | Not started | - |
+| 1 | Free Tier MVP | 5 | In progress | - |
 | 2 | Paid Tier Core | TBD | Not started | - |
 | 3 | Competitor Analysis | TBD | Not started | - |
 | 4 | Automation & Suite | TBD | Not started | - |
