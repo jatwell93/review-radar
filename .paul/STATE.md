@@ -11,9 +11,9 @@ See: .paul/PROJECT.md (updated 2026-05-02)
 
 Milestone: v0.1 Free Tier MVP
 Phase: 1 of 1 (Free Tier MVP) — Planning
-Plan: 01-01 created, awaiting approval
-Status: PLAN created, ready for AUDIT → APPLY
-Last activity: 2026-05-02 — Created .paul/phases/01-free-tier-mvp/01-01-PLAN.md
+Plan: 01-01 created + audited, awaiting approval
+Status: PLAN audited, ready for APPLY
+Last activity: 2026-05-02 — Enterprise audit complete on 01-01-PLAN.md. Applied 3 must-have + 3 strongly-recommended upgrades. Verdict: conditionally acceptable → now approved.
 
 Progress:
 - Milestone: [░░░░░░░░░░] 0%
@@ -35,6 +35,7 @@ PLAN ──▶ APPLY ──▶ UNIFY
 | Phase 1 = free tier MVP only | Validate core value before building paid machinery | All v1 work is stateless, no auth/DB |
 | Claude Haiku included in free tier | Cost negligible (~$0.01–0.04/run), dramatically improves output quality | Requires ANTHROPIC_API_KEY from day one |
 | Stateless architecture (Phase 1) | Removes auth complexity, zero barrier to try | No Supabase until Phase 2 |
+| 2026-05-02: Enterprise audit on 01-01-PLAN.md. Applied 3 must-have (venv, git env hygiene, CORS preflight) + 3 strongly-recommended (runtime pinning, runtime.txt, package-lock). Verdict: conditionally acceptable → approved. | Phase 1 | Scaffold patterns now enforce venv, env safety, and CORS correctness across all subsequent plans |
 
 ### Deferred Issues
 | Issue | Origin | Effort | Revisit |
