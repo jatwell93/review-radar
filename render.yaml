@@ -1,0 +1,29 @@
+# Review Radar — Render deployment config
+# Deploy this repo as a Render web service.
+#
+# Required env vars (set in Render dashboard — NOT in this file):
+#   ANTHROPIC_API_KEY  — Anthropic API key for Claude Haiku narrative
+#   ALLOWED_ORIGINS    — Comma-separated allowed origins, e.g.:
+#                        https://your-site.netlify.app,http://localhost:3000
+
+services:
+  - type: web
+    name: review-radar-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    # audit-added: reference the existing GET /health endpoint for application-level
+    # health monitoring. Without this, Render only checks TCP port binding and will
+    # not restart a process that has crashed-but-not-exited.
+    healthCheckPath: /health
+    # audit-added: Free tier spins down after 15 min idle → 30-60s cold start on
+    # next request. This directly conflicts with the "insights in under 30 seconds"
+    # product promise. Document as known limitation; upgrade plan to eliminate.
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false

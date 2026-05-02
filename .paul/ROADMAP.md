@@ -7,14 +7,14 @@ Review Radar ships in four milestones: a stateless free-tier MVP that proves the
 ## Current Milestone
 
 **v0.1 Free Tier MVP** (v0.1.0)
-Status: Not started
-Phases: 0 of 1 complete
+Status: ✅ Complete
+Phases: 1 of 1 complete
 
 ## Phases
 
 | Phase | Name | Plans | Status | Completed |
 |-------|------|-------|--------|-----------|
-| 1 | Free Tier MVP | 5 | In progress | - |
+| 1 | Free Tier MVP | 5 | ✅ Complete | 2026-05-02 |
 | 2 | Paid Tier Core | TBD | Not started | - |
 | 3 | Competitor Analysis | TBD | Not started | - |
 | 4 | Automation & Suite | TBD | Not started | - |
@@ -39,11 +39,11 @@ Phases: 0 of 1 complete
 - Production deployment: Netlify (frontend) + Render (backend)
 
 **Plans:**
-- [ ] 01-01: Project scaffold — Next.js App Router + Tailwind + FastAPI skeleton + CORS + env setup
-- [ ] 01-02: CSV ingestion + VADER pipeline — upload endpoint, parse/validate CSV, VADER scoring, aggregation logic
-- [ ] 01-03: Results dashboard — sentiment score, charts (trend + distribution), top/bottom reviews UI
-- [ ] 01-04: Claude Haiku narrative — summary endpoint, prompt design, frontend integration
-- [ ] 01-05: Export + deploy — PDF/CSV export, Netlify deploy, Render deploy, smoke test
+- [x] 01-01: Project scaffold — Next.js App Router + Tailwind + FastAPI skeleton + CORS + env setup
+- [x] 01-02: CSV ingestion + VADER pipeline — upload endpoint, parse/validate CSV, VADER scoring, aggregation logic
+- [x] 01-03: Results dashboard — sentiment score, charts (trend + distribution), top/bottom reviews UI
+- [x] 01-04: Claude Haiku narrative — summary endpoint, prompt design, frontend integration
+- [x] 01-05: Export + deploy — PDF/CSV export, Netlify deploy, Render deploy, smoke test
 
 ### Phase 2: Paid Tier Core
 
@@ -98,4 +98,4 @@ Phases: 0 of 1 complete
 
 ---
 *Roadmap created: 2026-05-02*
-*Last updated: 2026-05-02*
+*Last updated: 2026-05-02 — Phase 1 complete*

@@ -13,8 +13,8 @@ Pharmacy owners get actionable, plain-English insights from their Google reviews
 | Attribute | Value |
 |-----------|-------|
 | Type | Application |
-| Version | 0.0.0 |
-| Status | Initializing |
+| Version | 0.1.0 |
+| Status | v0.1 Free Tier MVP shipped — Phase 2 next |
 | Last Updated | 2026-05-02 |
 
 ## Requirements
@@ -28,13 +28,24 @@ Pharmacy owners get actionable, plain-English insights from their Google reviews
 - Stateless free tier — no account required
 
 ### Validated (Shipped)
-None yet.
+- ✓ CSV upload → VADER sentiment analysis → score, distribution, timeline, top/bottom 5 reviews — Phase 1
+- ✓ Claude Haiku narrative: plain-English 3-4 sentence business-advisor summary — Phase 1
+- ✓ Results dashboard with charts (sentiment score card, trend line, distribution bar) — Phase 1
+- ✓ PDF export via browser print dialog (print:hidden on UI chrome) — Phase 1
+- ✓ CSV export with UTF-8 BOM + formula-injection sanitization — Phase 1
+- ✓ Stateless free tier — no account required — Phase 1
+- ✓ Netlify + Render deployment configs (netlify.toml + render.yaml) — Phase 1
 
 ### Active (In Progress)
 None yet.
 
 ### Planned (Next)
-- [ ] Phase 1: Free Tier MVP — scaffold → VADER pipeline → dashboard → Claude summary → export → deploy
+- [ ] Phase 2: Supabase auth (email + Google OAuth)
+- [ ] Phase 2: Stripe yearly subscription ($20/yr) + webhook handling
+- [ ] Phase 2: Persistent analysis storage (Supabase Postgres with RLS)
+- [ ] Phase 2: KeyBERT topic extraction — top positive and negative themes
+- [ ] Phase 2: Historical comparison UI
+- [ ] Phase 2: Multi-location support
 
 ### Out of Scope (v1)
 - User accounts and authentication (Phase 2)
@@ -88,15 +99,20 @@ Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), no sha
 | Claude Haiku for narrative | Negligible cost (~$0.01–0.04/analysis), high quality plain-English output | 2026-05-02 | Active |
 | Stateless free tier | Removes auth complexity, lowers barrier to try the product | 2026-05-02 | Active |
 | Render for backend | Easy Python deploys, free tier for early stage | 2026-05-02 | Active |
+| Separate narrative endpoint (not merged into /analyze/) | Keeps VADER pipeline fast; AI latency (~3-5s) would block chart render if merged | 2026-05-02 | Active |
+| UTF-8 BOM on CSV output | Windows Excel opens without character corruption; Google review text is Unicode | 2026-05-02 | Active |
+| print:hidden on export/reset row | Buttons should not appear in PDF/print output; dashboard content prints as-is | 2026-05-02 | Active |
+| render.yaml sync:false for secrets | ANTHROPIC_API_KEY and ALLOWED_ORIGINS must not be committed to version control | 2026-05-02 | Active |
+| Render healthCheckPath: /health | App-level monitoring vs TCP-only; catches crashed-but-not-exited process | 2026-05-02 | Active |
 
 ## Success Metrics
 
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
-| Analysis time (upload → results) | < 30 seconds | - | Not started |
-| Plain-English test | Non-technical owner understands output immediately | - | Not started |
-| Free tier zero-friction | Works without creating an account | - | Not started |
-| Deployment | Live on Netlify + Render | - | Not started |
+| Analysis time (upload → results) | < 30 seconds | Not measured yet | Config ready — pending live deploy |
+| Plain-English test | Non-technical owner understands output immediately | Not tested yet | Pending user testing after deploy |
+| Free tier zero-friction | Works without creating an account | ✓ | Shipped — Phase 1 |
+| Deployment | Live on Netlify + Render | Config shipped | netlify.toml + render.yaml committed; manual repo connect remaining |
 
 ## Tech Stack
 
@@ -116,4 +132,4 @@ Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), no sha
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-05-02*
+*Last updated: 2026-05-02 after Phase 1 (Free Tier MVP)*

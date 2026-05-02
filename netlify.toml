@@ -1,0 +1,17 @@
+# Review Radar — Netlify deployment config
+#
+# Required env vars (set in Netlify dashboard → Site settings → Environment variables):
+#   NEXT_PUBLIC_API_URL  — The Render API base URL (no trailing slash)
+#                          Example: https://review-radar-api.onrender.com
+
+[build]
+  base    = "frontend"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# NEXT_PUBLIC_API_URL must be set in Netlify dashboard → Site settings →
+# Environment variables. Set it to the Render service URL after Render deploy.
+# Example: NEXT_PUBLIC_API_URL = https://review-radar-api.onrender.com
