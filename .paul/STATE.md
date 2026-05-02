@@ -5,15 +5,15 @@
 See: .paul/PROJECT.md (updated 2026-05-02)
 
 **Core value:** Pharmacy owners get actionable, plain-English insights from their Google reviews in under 30 seconds.
-**Current focus:** v0.1 Free Tier MVP — Phase 1 ready to plan
+**Current focus:** v0.1 Free Tier MVP — Phase 1, plan 01-01 loop closed, ready for 01-02
 
 ## Current Position
 
 Milestone: v0.1 Free Tier MVP
-Phase: 1 of 1 (Free Tier MVP) — Executing
-Plan: 01-01 APPLY complete, ready for UNIFY
-Status: APPLY complete — scaffold built and verified
-Last activity: 2026-05-02 — Plan 01-01 executed. Next.js + FastAPI scaffold verified. All ACs pass.
+Phase: 1 of 5 plans (Free Tier MVP) — In progress (1/5 complete)
+Plan: 01-01 loop closed (commit 6e23ab3)
+Status: UNIFY complete — ready to plan 01-02
+Last activity: 2026-05-02 — Plan 01-01 UNIFY complete. Loop closed. Scaffold committed.
 
 Progress:
 - Milestone: [█░░░░░░░░░] 10%
@@ -24,7 +24,7 @@ Progress:
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ○     [APPLY complete, awaiting UNIFY]
+  ✓        ✓        ✓     [Loop closed — ready for next PLAN]
 ```
 
 ## Accumulated Context
@@ -51,9 +51,9 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-02
-Stopped at: Plan 01-01 APPLY complete — scaffold built, all ACs verified
-Next action: Run /paul:unify .paul/phases/01-free-tier-mvp/01-01-PLAN.md to close the loop, then plan 01-02
-Resume context: 01-01 scaffold done. Next.js on :3000, FastAPI on :8000, CORS verified. Plans 01-02 through 01-05 follow.
+Stopped at: Plan 01-01 UNIFY complete — loop closed, commit 6e23ab3
+Next action: /paul:plan for 01-02 (CSV ingestion + VADER pipeline)
+Resume context: Scaffold done. frontend/ builds clean; backend/ venv ready with VADER + anthropic pre-installed. CORS verified (GET + OPTIONS). Next: upload endpoint, CSV parse/validate, VADER scoring.
 
 ---
 *STATE.md — Updated after every significant action*

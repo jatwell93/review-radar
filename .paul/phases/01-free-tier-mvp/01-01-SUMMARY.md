@@ -1,98 +1,150 @@
 ---
-plan: 01-01
 phase: 01-free-tier-mvp
-status: complete
-executed: 2026-05-02
+plan: 01
+subsystem: infra
+tags: [nextjs, fastapi, tailwind, cors, typescript, python]
+
+requires: []
+provides:
+  - Next.js 14 App Router frontend scaffold with Tailwind
+  - FastAPI backend with CORS and /health endpoint
+  - Virtual environment with all Phase 1 packages pre-installed
+  - Node 20 and Python 3.11 version pins
+affects: [01-02, 01-03, 01-04, 01-05]
+
+tech-stack:
+  added: [next@14.2.3, react@18, tailwindcss@3, fastapi@0.111.0, uvicorn@0.29.0, vaderSentiment@3.3.2, anthropic@0.26.0, recharts@2]
+  patterns: [app-router, flat-fastapi-structure, env-file-per-service, venv-isolation]
+
+key-files:
+  created:
+    - frontend/src/app/layout.tsx
+    - frontend/src/app/page.tsx
+    - backend/main.py
+    - backend/requirements.txt
+    - frontend/package.json
+  modified: []
+
+key-decisions:
+  - "next.config.mjs (not .ts): Next.js 14.2.3 does not support TypeScript config files"
+  - "Pre-install VADER + anthropic in requirements.txt to avoid re-install per plan"
+  - "recharts added to package.json now — venv/node_modules ready for 01-02 and 01-03"
+
+patterns-established:
+  - "Each service reads env from its own .env/.env.local (gitignored)"
+  - "ALLOWED_ORIGINS is comma-split from env var — supports multi-origin expansion"
+  - "Backend stays flat (no routers) until 01-02 introduces route handlers"
+
+duration: ~25min
+started: 2026-05-02T14:00:00Z
+completed: 2026-05-02T15:20:00Z
 ---
 
-# 01-01 SUMMARY: Project Scaffold
+# Phase 1 Plan 01: Project Scaffold Summary
 
-## What Was Built
+**Next.js 14 App Router + FastAPI skeleton wired with CORS, env files, and version pins — both services start locally and communicate without CORS errors.**
 
-### Directory Structure
-```
-review-radar/
-├── .nvmrc                        # Node 20 pin
-├── .python-version               # Python 3.11 pin
-├── frontend/
-│   ├── package.json              # Next.js 14 + Tailwind + recharts
-│   ├── package-lock.json         # Committed for reproducible CI
-│   ├── next.config.mjs           # Minimal Next.js config (note: .mjs, not .ts — v14 limitation)
-│   ├── tailwind.config.ts        # Pharm IQ palette (slate/emerald/rose)
-│   ├── postcss.config.mjs        # tailwindcss + autoprefixer
-│   ├── tsconfig.json             # @/* path alias → src/*
-│   ├── .env.local                # NEXT_PUBLIC_API_URL=http://localhost:8000 (gitignored)
-│   └── src/app/
-│       ├── layout.tsx            # Inter font, nav bar (brand + "Part of Pharm IQ")
-│       ├── page.tsx              # Placeholder: "Review Radar" heading + upload-zone div
-│       └── globals.css           # @tailwind base/components/utilities
-└── backend/
-    ├── main.py                   # FastAPI app + CORSMiddleware + GET /health
-    ├── requirements.txt          # Pinned: fastapi, uvicorn, dotenv, VADER, anthropic, httpx
-    ├── runtime.txt               # python-3.11.0 (Render runtime detection)
-    └── .env                      # ANTHROPIC_API_KEY + ALLOWED_ORIGINS (gitignored)
-```
+## Performance
 
-## Package Versions Pinned
-
-### Frontend
-| Package | Version |
-|---------|---------|
-| next | 14.2.3 |
-| react / react-dom | ^18.3.1 |
-| tailwindcss | ^3.4.3 |
-| typescript | ^5.4.5 |
-| recharts | ^2.12.7 (pre-installed for 01-03) |
-
-### Backend
-| Package | Version |
-|---------|---------|
-| fastapi | 0.111.0 |
-| uvicorn[standard] | 0.29.0 |
-| python-multipart | 0.0.9 |
-| python-dotenv | 1.0.1 |
-| vaderSentiment | 3.3.2 (pre-installed for 01-02) |
-| anthropic | 0.26.0 (pre-installed for 01-04) |
-| httpx | 0.27.0 |
-
-## CORS Configuration
-
-- Middleware: `fastapi.middleware.cors.CORSMiddleware`
-- Origins: read from `ALLOWED_ORIGINS` env var (comma-split), defaults to `http://localhost:3000`
-- allow_credentials: `True`
-- allow_methods: `["*"]`
-- allow_headers: `["*"]`
-- OPTIONS preflight verified: returns 200 with full CORS headers (critical for CSV multipart uploads in 01-02)
-
-## Local Dev Commands
-
-```bash
-# Frontend
-cd frontend/
-npm install
-npm run dev          # http://localhost:3000
-
-# Backend
-cd backend/
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn main:app --reload    # http://localhost:8000
-```
-
-## Decisions & Deviations
-
-| Item | Detail |
-|------|--------|
-| `next.config.mjs` not `.ts` | Next.js 14.2.3 does not support TypeScript config files. Used `.mjs` instead. Not a plan deviation — the plan specified "Next.js 14 config", and `.mjs` is the correct form for this version. |
-| `recharts` pre-installed | Included in frontend deps now so 01-03 doesn't need a fresh install. |
-| `vaderSentiment` + `anthropic` pre-installed | Same rationale — venv ready for 01-02 and 01-04. |
+| Metric | Value |
+|--------|-------|
+| Duration | ~25 min |
+| Started | 2026-05-02 |
+| Completed | 2026-05-02 |
+| Tasks | 2 of 2 completed |
+| Files created | 16 |
 
 ## Acceptance Criteria Results
 
-| AC | Result |
-|----|--------|
-| AC-1: Frontend starts cleanly | PASS — `npm run build` exits 0, renders "Review Radar" heading |
-| AC-2: Backend starts cleanly | PASS — `uvicorn` starts on :8000, `/health` returns `{"status":"ok","service":"review-radar-api"}` |
-| AC-3: CORS allows frontend origin | PASS — GET and OPTIONS preflight both return `Access-Control-Allow-Origin: http://localhost:3000` |
-| AC-4: Environment variables load | PASS — `.env.local` and `.env` present and read at startup |
+| Criterion | Status | Notes |
+|-----------|--------|-------|
+| AC-1: Frontend starts cleanly | Pass | `npm run build` exits 0; home page renders "Review Radar" heading |
+| AC-2: Backend starts cleanly | Pass | `/health` returns `{"status":"ok","service":"review-radar-api"}` |
+| AC-3: CORS allows frontend origin | Pass | GET + OPTIONS preflight both return `Access-Control-Allow-Origin: http://localhost:3000` |
+| AC-4: Environment variables load | Pass | `.env.local` and `.env` read at startup; no errors |
+
+## Accomplishments
+
+- Next.js 14 App Router builds clean with 0 TypeScript errors and a Pharm IQ–branded nav bar
+- FastAPI health endpoint verified with CORS GET and OPTIONS preflight (critical for 01-02 multipart uploads)
+- All Phase 1 Python packages (VADER, anthropic, httpx) pre-installed in venv — no re-install needed per plan
+- Node 20 + Python 3.11 pinned via `.nvmrc` and `.python-version`; Render runtime pinned via `backend/runtime.txt`
+
+## Task Commits
+
+| Task | Commit | Type | Description |
+|------|--------|------|-------------|
+| Task 1: Scaffold Next.js frontend | `6e23ab3` | feat | Next.js 14 + Tailwind, layout, placeholder home page, .nvmrc |
+| Task 2: Scaffold FastAPI backend | `6e23ab3` | feat | FastAPI + CORSMiddleware + /health, requirements.txt, runtime.txt |
+
+## Files Created/Modified
+
+| File | Change | Purpose |
+|------|--------|---------|
+| `frontend/package.json` | Created | Next.js 14 + Tailwind + recharts dependencies |
+| `frontend/next.config.mjs` | Created | Minimal Next.js config |
+| `frontend/tailwind.config.ts` | Created | Pharm IQ palette (slate/emerald/rose) |
+| `frontend/postcss.config.mjs` | Created | Tailwind + autoprefixer pipeline |
+| `frontend/tsconfig.json` | Created | App Router settings, `@/*` path alias |
+| `frontend/src/app/layout.tsx` | Created | Inter font, nav bar (brand + "Part of Pharm IQ") |
+| `frontend/src/app/page.tsx` | Created | Placeholder home, `#upload-zone` div |
+| `frontend/src/app/globals.css` | Created | `@tailwind` directives |
+| `frontend/package-lock.json` | Created | Committed for reproducible CI |
+| `backend/main.py` | Created | FastAPI app + CORSMiddleware + GET /health |
+| `backend/requirements.txt` | Created | All Phase 1 packages pinned |
+| `backend/runtime.txt` | Created | `python-3.11.0` for Render runtime detection |
+| `.nvmrc` | Created | Node 20 pin |
+| `.python-version` | Created | Python 3.11 pin |
+
+## Decisions Made
+
+| Decision | Rationale | Impact |
+|----------|-----------|--------|
+| `next.config.mjs` not `.ts` | Next.js 14.2.3 rejects TypeScript config files at build time | All future plans use `.mjs` for Next.js config |
+| Pre-install VADER + anthropic | Avoids pip install per plan; venv stable across 01-02 to 01-04 | `pip install -r requirements.txt` is idempotent in later plans |
+| recharts pre-added | Prevents `npm install` mid-feature in 01-03 | Chart library available from project start |
+
+## Deviations from Plan
+
+### Summary
+
+| Type | Count | Impact |
+|------|-------|--------|
+| Auto-fixed | 1 | Essential — build would have failed |
+| Scope additions | 0 | None |
+| Deferred | 0 | None |
+
+**Total impact:** One essential fix, no scope creep.
+
+### Auto-fixed Issues
+
+**1. Config format — `next.config.ts` → `next.config.mjs`**
+- **Found during:** Task 1 qualify (build verification)
+- **Issue:** Next.js 14.2.3 throws `Error: Configuring Next.js via 'next.config.ts' is not supported` — TypeScript config files were added in Next.js 15
+- **Fix:** Replaced with `next.config.mjs` (valid for v14)
+- **Files:** `frontend/next.config.mjs` (replaced `next.config.ts`)
+- **Verification:** `npm run build` exits 0 after fix
+
+## Issues Encountered
+
+| Issue | Resolution |
+|-------|------------|
+| `next.config.ts` not supported in Next.js 14 | Replaced with `next.config.mjs` — functionally identical |
+
+## Next Phase Readiness
+
+**Ready:**
+- `frontend/` builds and runs; all Tailwind + recharts imports resolve
+- `backend/` venv active with all Phase 1 deps installed; CORS verified for POST requests
+- `.env.local` and `.env` gitignored and in place
+- `#upload-zone` div placeholder on home page ready for 01-03 UI
+
+**Concerns:**
+- None — scaffold is minimal and stable
+
+**Blockers:**
+- None
+
+---
+*Phase: 01-free-tier-mvp, Plan: 01*
+*Completed: 2026-05-02*
