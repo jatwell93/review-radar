@@ -10,21 +10,21 @@ See: .paul/PROJECT.md (updated 2026-05-02)
 ## Current Position
 
 Milestone: v0.1 Free Tier MVP
-Phase: 1 of 1 (Free Tier MVP) — Planning
-Plan: 01-01 created + audited, awaiting approval
-Status: PLAN audited, ready for APPLY
-Last activity: 2026-05-02 — Enterprise audit complete on 01-01-PLAN.md. Applied 3 must-have + 3 strongly-recommended upgrades. Verdict: conditionally acceptable → now approved.
+Phase: 1 of 1 (Free Tier MVP) — Executing
+Plan: 01-01 APPLY complete, ready for UNIFY
+Status: APPLY complete — scaffold built and verified
+Last activity: 2026-05-02 — Plan 01-01 executed. Next.js + FastAPI scaffold verified. All ACs pass.
 
 Progress:
-- Milestone: [░░░░░░░░░░] 0%
-- Phase 1:   [░░░░░░░░░░] 0%
+- Milestone: [█░░░░░░░░░] 10%
+- Phase 1:   [█░░░░░░░░░] 20%
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ○        ○     [Plan created, awaiting approval]
+  ✓        ✓        ○     [APPLY complete, awaiting UNIFY]
 ```
 
 ## Accumulated Context
@@ -51,9 +51,9 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-02
-Stopped at: Plan 01-01 created (Project Scaffold)
-Next action: Approve plan → run /paul:audit then /paul:apply .paul/phases/01-free-tier-mvp/01-01-PLAN.md
-Resume context: 01-01 scaffolds Next.js + FastAPI. Plans 01-02 through 01-05 follow sequentially.
+Stopped at: Plan 01-01 APPLY complete — scaffold built, all ACs verified
+Next action: Run /paul:unify .paul/phases/01-free-tier-mvp/01-01-PLAN.md to close the loop, then plan 01-02
+Resume context: 01-01 scaffold done. Next.js on :3000, FastAPI on :8000, CORS verified. Plans 01-02 through 01-05 follow.
 
 ---
 *STATE.md — Updated after every significant action*
