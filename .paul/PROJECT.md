@@ -2,7 +2,7 @@
 
 ## What This Is
 
-Review Radar is a pharmacy-focused sentiment analytics web application. Owners upload a CSV of their Google reviews and receive a structured breakdown of what customers love, what they're complaining about, and a plain-English narrative summary they can act on immediately — no data science knowledge required. Paid users can also scrape competitor reviews to identify gaps in their own offering and compare performance over time.
+Review Radar is a pharmacy-focused sentiment analytics web application. Owners upload a CSV of their Google reviews and receive a structured breakdown of what customers love, what they're complaining about, and a plain-English narrative summary they can act on immediately — no data science knowledge required. Paid users accumulate analysis history, view month-over-month trend comparisons, and see KeyBERT-extracted topic themes. Phase 3 will add competitor scraping and gap analysis.
 
 ## Core Value
 
@@ -13,9 +13,9 @@ Pharmacy owners get actionable, plain-English insights from their Google reviews
 | Attribute | Value |
 |-----------|-------|
 | Type | Application |
-| Version | 0.1.0 |
-| Status | v0.1 Free Tier MVP shipped — Phase 2 next |
-| Last Updated | 2026-05-02 |
+| Version | 0.2.0 |
+| Status | v0.2 Paid Tier Core shipped — Phase 3 (Competitor Analysis) next |
+| Last Updated | 2026-05-08 |
 
 ## Requirements
 
@@ -35,25 +35,33 @@ Pharmacy owners get actionable, plain-English insights from their Google reviews
 - ✓ CSV export with UTF-8 BOM + formula-injection sanitization — Phase 1
 - ✓ Stateless free tier — no account required — Phase 1
 - ✓ Netlify + Render deployment configs (netlify.toml + render.yaml) — Phase 1
+- ✓ Supabase email auth (sign-up, login, logout) with session middleware protecting /dashboard/* — Phase 2
+- ✓ Stripe $20/yr subscription + checkout + webhook activation + dashboard premium badge — Phase 2
+- ✓ Persistent analysis storage (Supabase Postgres with RLS, auto-save, /dashboard/history) — Phase 2
+- ✓ KeyBERT topic extraction — top positive and negative keyword themes for premium users — Phase 2
+- ✓ Month-over-month trend comparison: score delta in narrative + Latest vs Previous card in history — Phase 2
 
 ### Active (In Progress)
 None yet.
 
 ### Planned (Next)
-- [ ] Phase 2: Supabase auth (email + Google OAuth)
-- [ ] Phase 2: Stripe yearly subscription ($20/yr) + webhook handling
-- [ ] Phase 2: Persistent analysis storage (Supabase Postgres with RLS)
-- [ ] Phase 2: KeyBERT topic extraction — top positive and negative themes
-- [ ] Phase 2: Historical comparison UI
-- [ ] Phase 2: Multi-location support
+- [ ] Phase 3: Competitor review scraping via gosom (Google Maps URL → review data)
+- [ ] Phase 3: Side-by-side gap analysis: own pharmacy vs competitor sentiment + themes
+- [ ] Phase 3: Outscraper fallback when gosom is blocked
+- [ ] Phase 3: Rate limiting — 10 competitor scans/month per user
+- [ ] Phase 4: n8n scheduled weekly re-analysis + email delivery
+- [ ] Phase 4: Sentiment drop alerts
+- [ ] Phase 4: Pharm IQ suite billing consolidation ($60/yr bundle)
 
-### Out of Scope (v1)
-- User accounts and authentication (Phase 2)
-- KeyBERT topic extraction (Phase 2)
+### Out of Scope (deferred)
+- Multi-location support — scoped to Phase 2 but not implemented; no schema/UX designed; deferred to Phase 3 or standalone plan
+- Google OAuth — email auth sufficient for launch; OAuth deferred to future phase if demand
+- User accounts and authentication (shipped Phase 2)
+- KeyBERT topic extraction (shipped Phase 2)
 - Competitor scraping (Phase 3)
-- Historical comparison (Phase 2)
+- Historical comparison (shipped Phase 2)
 - Scheduled re-analysis / n8n automation (Phase 4)
-- Stripe billing (Phase 2)
+- Stripe billing (shipped Phase 2)
 
 ## Target Users
 
@@ -68,10 +76,10 @@ None yet.
 ## Context
 
 **Business Context:**
-Review Radar is part of the Pharm IQ suite — a growing collection of pharmacy management tools including Expiry Mat, Heat Map, Basket & Script Calculator, and Pay Calculator. Freemium model: free tier (VADER, stateless) validates the concept; paid tier ($20/yr) adds persistence, KeyBERT, Claude, and competitor analysis.
+Review Radar is part of the Pharm IQ suite — a growing collection of pharmacy management tools including Expiry Mat, Heat Map, Basket & Script Calculator, and Pay Calculator. Freemium model: free tier (VADER, stateless) validates the concept; paid tier ($20/yr) adds persistence, KeyBERT, Claude trend narratives, and competitor analysis.
 
 **Technical Context:**
-Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), no shared infrastructure with other Pharm IQ tools yet. Phase 1 is entirely stateless — no database required. Claude Haiku API is the only paid external dependency in v1.
+Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), Supabase for auth + Postgres. Phase 1 was stateless. Phase 2 added Supabase auth + RLS, Stripe subscriptions, KeyBERT (lazy-loaded singleton, ~300MB PyTorch), and trend narrative. Phase 3 adds a gosom scraper as a Render worker (Dockerised).
 
 ## Constraints
 
@@ -80,6 +88,7 @@ Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), no sha
 - Claude Haiku API key required for narrative summary (ANTHROPIC_API_KEY env var)
 - Google review CSV format may vary slightly — parser must be tolerant of minor format differences
 - Free tier must be stateless — no writes to any database
+- Render free tier (512MB RAM) may OOM with KeyBERT/sentence-transformers (~300MB PyTorch) — monitor after deploy
 
 ### Business Constraints
 - Phase 1 scope is free tier MVP only — paid features explicitly deferred
@@ -88,6 +97,7 @@ Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), no sha
 
 ### Compliance Constraints
 - Review data uploaded by users is not persisted (free tier) — no data retention risk in v1
+- Premium users: analysis data stored in Supabase with RLS (users access own rows only)
 
 ## Key Decisions
 
@@ -104,6 +114,16 @@ Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), no sha
 | print:hidden on export/reset row | Buttons should not appear in PDF/print output; dashboard content prints as-is | 2026-05-02 | Active |
 | render.yaml sync:false for secrets | ANTHROPIC_API_KEY and ALLOWED_ORIGINS must not be committed to version control | 2026-05-02 | Active |
 | Render healthCheckPath: /health | App-level monitoring vs TCP-only; catches crashed-but-not-exited process | 2026-05-02 | Active |
+| @supabase/ssr (not supabase-js) for Next.js App Router | Correct cookie handling for SSR; getUser() validates JWT server-side | 2026-05-03 | Active |
+| getUser() over getSession() in middleware | getSession() reads cookie without server validation; getUser() validates JWT | 2026-05-03 | Active |
+| Server action for logout | Client-side signOut + router.push can flash stale state before redirect | 2026-05-03 | Active |
+| load_dotenv() before router imports | Routers validate env vars at module level; wrong order causes RuntimeError | 2026-05-03 | Active |
+| Auto-save fires before narrative fetch | Narrative takes 5-10s; firing early ensures save completes even if user closes tab | 2026-05-08 | Active |
+| INSERT not UPSERT for analyses | Each save is a distinct historical record — idempotency not desired | 2026-05-08 | Active |
+| all-MiniLM-L6-v2 for KeyBERT | Smallest semantic model (~90MB), balances quality vs Render memory budget | 2026-05-08 | Active |
+| Topics stateless, not stored | Avoids DB schema changes; stateless per-request extraction sufficient for MVP | 2026-05-08 | Active |
+| Pre-save snapshot for trend context | Fetch prior analysis before saving current — prevents race condition (current → previous) | 2026-05-08 | Active |
+| Trend threshold ±0.02 | Signals meaningful change vs noise; deferred to config if tuning needed | 2026-05-08 | Active |
 
 ## Success Metrics
 
@@ -113,6 +133,7 @@ Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), no sha
 | Plain-English test | Non-technical owner understands output immediately | Not tested yet | Pending user testing after deploy |
 | Free tier zero-friction | Works without creating an account | ✓ | Shipped — Phase 1 |
 | Deployment | Live on Netlify + Render | Config shipped | netlify.toml + render.yaml committed; manual repo connect remaining |
+| Paid tier | Users can subscribe and access premium features | ✓ | Shipped — Phase 2 |
 
 ## Tech Stack
 
@@ -122,14 +143,14 @@ Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), no sha
 | Frontend styling | Tailwind CSS | Consistent with Pharm IQ suite |
 | Frontend hosting | Netlify | Static + edge functions |
 | Backend framework | FastAPI (Python) | REST API, auto-docs |
-| Backend hosting | Render | Free tier initially |
+| Backend hosting | Render | Free tier initially; Starter tier if KeyBERT OOMs |
 | Sentiment analysis | VADER (vaderSentiment) | Free tier NLP |
-| Topic extraction | KeyBERT | Paid tier only (Phase 2) |
+| Topic extraction | KeyBERT + sentence-transformers | Paid tier; lazy-loaded singleton |
 | Qualitative narrative | Claude Haiku (Anthropic API) | ~$0.01–0.04 per analysis |
-| Auth / Database | Supabase | Paid tier only (Phase 2) |
-| Payments | Stripe | Paid tier only (Phase 2) |
+| Auth / Database | Supabase | Email auth + Postgres + RLS |
+| Payments | Stripe | $20/yr subscription |
 | Competitor scraper | gosom/google-maps-scraper | Paid tier only (Phase 3) |
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-05-02 after Phase 1 (Free Tier MVP)*
+*Last updated: 2026-05-08 after Phase 2 (Paid Tier Core)*

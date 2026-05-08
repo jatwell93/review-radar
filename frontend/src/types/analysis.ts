@@ -27,3 +27,8 @@ export interface AnalysisResponse {
 export interface NarrativeResponse {
   narrative: string;
 }
+
+export interface TopicsResponse {
+  positive_topics: string[];
+  negative_topics: string[];
+}

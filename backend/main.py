@@ -1,12 +1,17 @@
 import os
 from dotenv import load_dotenv
+
+# Must run before any router imports — routers validate env vars at module level
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from routers.analyze import router as analyze_router
 from routers.narrative import router as narrative_router
-
-load_dotenv()
+from routers.stripe import router as stripe_router
+from routers.analyses import router as analyses_router
+from routers.topics import router as topics_router
 
 app = FastAPI(title="Review Radar API")
 
@@ -22,6 +27,9 @@ app.add_middleware(
 
 app.include_router(analyze_router)
 app.include_router(narrative_router)
+app.include_router(stripe_router)
+app.include_router(analyses_router)
+app.include_router(topics_router)
 
 
 @app.get("/health")

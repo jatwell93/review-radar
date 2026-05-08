@@ -1,15 +1,15 @@
 {
   "name": "review-radar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "milestone": {
-    "name": "v0.1 Free Tier MVP",
-    "version": "0.1.0",
+    "name": "v0.2 Paid Tier Core",
+    "version": "0.2.0",
     "status": "complete"
   },
   "phase": {
-    "number": 1,
-    "name": "Free Tier MVP",
-    "status": "complete"
+    "number": 3,
+    "name": "Competitor Analysis",
+    "status": "not_started"
   },
   "loop": {
     "plan": null,
@@ -17,7 +17,7 @@
   },
   "timestamps": {
     "created_at": "2026-05-02T00:00:00Z",
-    "updated_at": "2026-05-02T00:00:00Z"
+    "updated_at": "2026-05-08T00:00:00Z"
   },
   "satellite": {
     "groom": true

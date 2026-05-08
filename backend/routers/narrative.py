@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from routers.analyze import Distribution, ReviewItem
 from services.narrative import generate_narrative
@@ -12,6 +12,8 @@ class NarrativeRequest(BaseModel):
     distribution: Distribution
     top_reviews: list[ReviewItem]
     bottom_reviews: list[ReviewItem]
+    previous_score: float | None = Field(default=None, ge=-1.0, le=1.0)
+    previous_distribution: Distribution | None = None
 
 
 router = APIRouter(prefix="/narrative", tags=["narrative"])

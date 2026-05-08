@@ -6,16 +6,16 @@ Review Radar ships in four milestones: a stateless free-tier MVP that proves the
 
 ## Current Milestone
 
-**v0.1 Free Tier MVP** (v0.1.0)
+**v0.2 Paid Tier Core** (v0.2.0)
 Status: ✅ Complete
-Phases: 1 of 1 complete
+Phases: 2 of 2 complete
 
 ## Phases
 
 | Phase | Name | Plans | Status | Completed |
 |-------|------|-------|--------|-----------|
 | 1 | Free Tier MVP | 5 | ✅ Complete | 2026-05-02 |
-| 2 | Paid Tier Core | TBD | Not started | - |
+| 2 | Paid Tier Core | 5 | ✅ Complete | 2026-05-08 |
 | 3 | Competitor Analysis | TBD | Not started | - |
 | 4 | Automation & Suite | TBD | Not started | - |
 
@@ -61,7 +61,11 @@ Phases: 1 of 1 complete
 - Multi-location support
 
 **Plans:**
-- [ ] To be defined during /paul:plan for Phase 2
+- [x] 02-01: Auth — Supabase email auth, session middleware, protected routes
+- [x] 02-02: Payments — Stripe $20/yr subscription, checkout, webhook, premium gating
+- [x] 02-03: History — Supabase Postgres schema, RLS, save analysis, history list UI
+- [x] 02-04: KeyBERT — Python KeyBERT service, FastAPI endpoint, topic display
+- [x] 02-05: Compare + Narrative v2 — trend commentary, Latest vs Previous comparison card
 
 ### Phase 3: Competitor Analysis
 
@@ -98,4 +102,4 @@ Phases: 1 of 1 complete
 
 ---
 *Roadmap created: 2026-05-02*
-*Last updated: 2026-05-02 — Phase 1 complete*
+*Last updated: 2026-05-08 — Phase 2 complete*

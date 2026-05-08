@@ -16,6 +16,7 @@ import type {
   ReviewItem,
   TimelineEntry,
   Distribution,
+  TopicsResponse,
 } from "@/types/analysis";
 
 interface Props {
@@ -23,6 +24,9 @@ interface Props {
   onReset: () => void;
   narrative?: string | null;
   narrativeLoading?: boolean;
+  topics?: TopicsResponse | null;
+  topicsLoading?: boolean;
+  topicsDenied?: boolean;
 }
 
 function sentimentTextColor(score: number): string {
@@ -84,7 +88,7 @@ function handleDownloadCSV(data: AnalysisResponse, narrative: string | null) {
   setTimeout(() => URL.revokeObjectURL(url), 100);
 }
 
-export default function ResultsDashboard({ data, onReset, narrative, narrativeLoading }: Props) {
+export default function ResultsDashboard({ data, onReset, narrative, narrativeLoading, topics, topicsLoading, topicsDenied }: Props) {
   const timeline: TimelineEntry[] = data.timeline;
   const distribution: Distribution = data.distribution;
 
@@ -236,6 +240,53 @@ export default function ResultsDashboard({ data, onReset, narrative, narrativeLo
         ) : (
           <p className="text-slate-400 text-sm italic">Summary unavailable</p>
         )}
+      </div>
+
+      {/* Key Themes — KeyBERT topic extraction (premium) */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+          Key Themes
+        </p>
+        {topicsLoading ? (
+          <div className="space-y-2">
+            <div className="h-4 bg-slate-100 rounded animate-pulse w-3/4" />
+            <div className="h-4 bg-slate-100 rounded animate-pulse w-1/2" />
+          </div>
+        ) : topicsDenied ? (
+          <p className="text-sm text-slate-400">
+            <span className="font-medium text-slate-600">Upgrade to Premium</span> to unlock topic analysis — discover exactly what customers love and complain about.
+          </p>
+        ) : topics ? (
+          <div className="space-y-4">
+            {topics.positive_topics.length > 0 && (
+              <div>
+                <p className="text-xs text-slate-400 mb-2">What customers love</p>
+                <div className="flex flex-wrap gap-2">
+                  {topics.positive_topics.map((topic) => (
+                    <span key={topic} className="px-3 py-1 bg-green-50 text-green-700 border border-green-200 rounded-full text-sm font-medium">
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {topics.negative_topics.length > 0 && (
+              <div>
+                <p className="text-xs text-slate-400 mb-2">What customers complain about</p>
+                <div className="flex flex-wrap gap-2">
+                  {topics.negative_topics.map((topic) => (
+                    <span key={topic} className="px-3 py-1 bg-red-50 text-red-700 border border-red-200 rounded-full text-sm font-medium">
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {topics.positive_topics.length === 0 && topics.negative_topics.length === 0 && (
+              <p className="text-sm text-slate-400 italic">No themes extracted — try a larger review set.</p>
+            )}
+          </div>
+        ) : null /* network failure — show nothing */}
       </div>
 
       {/* Action Row: Export + Reset */}
