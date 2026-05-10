@@ -16,7 +16,7 @@ Phases: 2 of 2 complete
 |-------|------|-------|--------|-----------|
 | 1 | Free Tier MVP | 5 | ✅ Complete | 2026-05-02 |
 | 2 | Paid Tier Core | 5 | ✅ Complete | 2026-05-08 |
-| 3 | Competitor Analysis | TBD | Not started | - |
+| 3 | Competitor Analysis | 5 | ✅ Complete | 2026-05-10 |
 | 4 | Automation & Suite | TBD | Not started | - |
 
 ## Phase Details
@@ -82,7 +82,11 @@ Phases: 2 of 2 complete
 - Rate limiting: 10 competitor scans/month per user
 
 **Plans:**
-- [ ] To be defined during /paul:plan for Phase 3
+- [x] 03-01: gosom scraper — Render worker (Dockerised), scrape endpoint
+- [x] 03-02: Competitor flow — URL input UI, trigger scrape, return raw results
+- [x] 03-03: Gap analysis UI — side-by-side sentiment + theme comparison
+- [x] 03-04: Outscraper fallback — when gosom is blocked
+- [x] 03-05: Rate limiting — 10 competitor scans/month per user
 
 ### Phase 4: Automation & Suite Integration
 
@@ -102,4 +106,4 @@ Phases: 2 of 2 complete
 
 ---
 *Roadmap created: 2026-05-02*
-*Last updated: 2026-05-08 — Phase 2 complete*
+*Last updated: 2026-05-10 — Phase 3 complete*

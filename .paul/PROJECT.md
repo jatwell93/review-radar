@@ -14,8 +14,8 @@ Pharmacy owners get actionable, plain-English insights from their Google reviews
 |-----------|-------|
 | Type | Application |
 | Version | 0.2.0 |
-| Status | v0.2 Paid Tier Core shipped — Phase 3 (Competitor Analysis) next |
-| Last Updated | 2026-05-08 |
+| Status | v0.3 Competitor Analysis shipped — Phase 4 (Automation & Suite) next |
+| Last Updated | 2026-05-10 |
 
 ## Requirements
 
@@ -40,15 +40,14 @@ Pharmacy owners get actionable, plain-English insights from their Google reviews
 - ✓ Persistent analysis storage (Supabase Postgres with RLS, auto-save, /dashboard/history) — Phase 2
 - ✓ KeyBERT topic extraction — top positive and negative keyword themes for premium users — Phase 2
 - ✓ Month-over-month trend comparison: score delta in narrative + Latest vs Previous card in history — Phase 2
+- ✓ Competitor review scraping via gosom (Google Maps URL → review data) with Outscraper fallback — Phase 3
+- ✓ Side-by-side gap analysis: own pharmacy vs competitor sentiment + themes (VADER + KeyBERT) — Phase 3
+- ✓ Rate limiting — 10 competitor scans/month per user with usage counter UI — Phase 3
 
 ### Active (In Progress)
 None yet.
 
 ### Planned (Next)
-- [ ] Phase 3: Competitor review scraping via gosom (Google Maps URL → review data)
-- [ ] Phase 3: Side-by-side gap analysis: own pharmacy vs competitor sentiment + themes
-- [ ] Phase 3: Outscraper fallback when gosom is blocked
-- [ ] Phase 3: Rate limiting — 10 competitor scans/month per user
 - [ ] Phase 4: n8n scheduled weekly re-analysis + email delivery
 - [ ] Phase 4: Sentiment drop alerts
 - [ ] Phase 4: Pharm IQ suite billing consolidation ($60/yr bundle)
@@ -124,6 +123,10 @@ Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), Supaba
 | Topics stateless, not stored | Avoids DB schema changes; stateless per-request extraction sufficient for MVP | 2026-05-08 | Active |
 | Pre-save snapshot for trend context | Fetch prior analysis before saving current — prevents race condition (current → previous) | 2026-05-08 | Active |
 | Trend threshold ±0.02 | Signals meaningful change vs noise; deferred to config if tuning needed | 2026-05-08 | Active |
+| gosom first, Outscraper fallback on 502 | gosom is self-hosted and cheaper; Outscraper is paid API fallback only when gosom returns 502 | 2026-05-10 | Active |
+| Rate limit via YYYY-MM key in competitor_scans table | Calendar-month quota without cron job; new month = new key = automatic reset | 2026-05-10 | Active |
+| Count increment only after successful scrape | Failed scrapes don't consume quota (AC-5); upsert placed after _scrape_with_fallback returns | 2026-05-10 | Active |
+| GapPanel as named component (not IIFE in JSX) | Idiomatic React; avoids re-creating function on every render; follows ComparisonCard pattern from history page | 2026-05-10 | Active |
 
 ## Success Metrics
 
@@ -153,4 +156,4 @@ Frontend on Netlify (Next.js static), backend on Render (FastAPI Python), Supaba
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-05-08 after Phase 2 (Paid Tier Core)*
+*Last updated: 2026-05-10 after Phase 3 (Competitor Analysis)*
