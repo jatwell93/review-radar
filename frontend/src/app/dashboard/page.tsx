@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { getSubscriptionStatus } from '@/lib/supabase/subscription'
 
@@ -53,9 +54,15 @@ export default async function DashboardPage() {
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
               ✓ Premium Active
             </span>
-            <p className="text-slate-500 text-sm mt-4">
-              Your premium features are coming soon.
+            <p className="text-slate-500 text-sm mt-4 mb-4">
+              Analyse a competitor's Google Maps reviews side-by-side with your own.
             </p>
+            <Link
+              href="/dashboard/competitor"
+              className="inline-block px-6 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              Analyse Competitor →
+            </Link>
           </div>
         ) : (
           <div className="mb-8">

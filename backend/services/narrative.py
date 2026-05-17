@@ -1,12 +1,12 @@
 import os
-from anthropic import Anthropic
+from openai import OpenAI
 
 
 def generate_narrative(data: dict) -> str:
-    """Call Claude Haiku to produce a plain-English pharmacy advisor summary."""
-    api_key = os.getenv("ANTHROPIC_API_KEY")
+    """Call Claude Haiku via OpenRouter to produce a plain-English pharmacy advisor summary."""
+    api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
-        raise ValueError("ANTHROPIC_API_KEY is not set")
+        raise ValueError("OPENROUTER_API_KEY is not set")
 
     top_texts = "\n".join(
         f"- {r['text'][:200]}" for r in data.get("top_reviews", [])[:3]
@@ -66,10 +66,13 @@ Write a 3-4 sentence plain-English summary for the pharmacy owner. Cover:
 {trend_instruction}
 Use a warm, professional business-advisor tone. No jargon. No bullet points. Sentences only."""
 
-    client = Anthropic(api_key=api_key)
-    message = client.messages.create(
-        model="claude-haiku-4-5-20251001",
+    client = OpenAI(
+        api_key=api_key,
+        base_url="https://openrouter.ai/api/v1",
+    )
+    message = client.chat.completions.create(
+        model="anthropic/claude-haiku-4-5",
         max_tokens=300,
         messages=[{"role": "user", "content": prompt}],
     )
-    return message.content[0].text.strip()
+    return message.choices[0].message.content.strip()

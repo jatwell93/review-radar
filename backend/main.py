@@ -12,6 +12,8 @@ from routers.narrative import router as narrative_router
 from routers.stripe import router as stripe_router
 from routers.analyses import router as analyses_router
 from routers.topics import router as topics_router
+from routers.competitor import router as competitor_router
+from routers.automation import router as automation_router
 
 app = FastAPI(title="Review Radar API")
 
@@ -30,6 +32,8 @@ app.include_router(narrative_router)
 app.include_router(stripe_router)
 app.include_router(analyses_router)
 app.include_router(topics_router)
+app.include_router(competitor_router)
+app.include_router(automation_router)
 
 
 @app.get("/health")

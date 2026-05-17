@@ -1,0 +1,103 @@
+<!-- Subject: Your Weekly Review Radar Report — {{ $json.pharmacy_name || "Your Pharmacy" }} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Review Radar Report</title>
+  <style>
+    body { margin: 0; padding: 0; background-color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .wrapper { width: 100%; background-color: #f5f5f5; padding: 32px 16px; box-sizing: border-box; }
+    .card { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .header { background-color: #1a56db; padding: 28px 32px; text-align: center; }
+    .header h1 { margin: 0; font-size: 22px; color: #ffffff; font-weight: 600; }
+    .header p { margin: 6px 0 0; font-size: 14px; color: #c3d9ff; }
+    .body { padding: 28px 32px; }
+    .score-card { background-color: #f0f4ff; border-radius: 8px; padding: 20px 24px; text-align: center; margin-bottom: 24px; }
+    .score-value { font-size: 40px; font-weight: 700; color: #1a56db; line-height: 1; }
+    .score-label-positive { font-size: 14px; font-weight: 600; color: #057a55; margin-top: 6px; }
+    .score-label-negative { font-size: 14px; font-weight: 600; color: #c81e1e; margin-top: 6px; }
+    .score-label-neutral  { font-size: 14px; font-weight: 600; color: #6b7280; margin-top: 6px; }
+    .stats-row { display: table; width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 24px; }
+    .stat-cell { display: table-cell; width: 25%; text-align: center; padding: 12px 8px; background-color: #f9fafb; border: 1px solid #e5e7eb; }
+    .stat-cell:first-child { border-radius: 6px 0 0 6px; }
+    .stat-cell:last-child  { border-radius: 0 6px 6px 0; }
+    .stat-number { font-size: 22px; font-weight: 700; color: #111827; }
+    .stat-label  { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+    .narrative-section { margin-bottom: 28px; }
+    .narrative-section h2 { font-size: 15px; font-weight: 600; color: #374151; margin: 0 0 10px; }
+    .narrative-section p  { font-size: 14px; line-height: 1.6; color: #4b5563; margin: 0; }
+    .cta-wrap { text-align: center; margin-bottom: 28px; }
+    .cta-btn { display: inline-block; background-color: #1a56db; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 12px 28px; border-radius: 6px; }
+    .footer { background-color: #f9fafb; border-top: 1px solid #e5e7eb; padding: 18px 32px; text-align: center; }
+    .footer p { margin: 0; font-size: 12px; color: #9ca3af; line-height: 1.5; }
+    @media only screen and (max-width: 480px) {
+      .body { padding: 20px 16px; }
+      .header { padding: 20px 16px; }
+      .stats-row { display: block; }
+      .stat-cell { display: block; width: 100%; box-sizing: border-box; border-radius: 0 !important; border-bottom: none; }
+      .stat-cell:last-child { border-bottom: 1px solid #e5e7eb; border-radius: 0 0 6px 6px !important; }
+      .stat-cell:first-child { border-radius: 6px 6px 0 0 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+
+      <!-- Header -->
+      <div class="header">
+        <h1>Your Weekly Review Radar Report</h1>
+        <p>{{ $json.pharmacy_name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') || 'Your Pharmacy' }}</p>
+      </div>
+
+      <div class="body">
+
+        <!-- Score card -->
+        <div class="score-card">
+          <div class="score-value">{{ $json.overall_score.toFixed(2) }}</div>
+          {{ $json.overall_score >= 0.05 ? '<div class="score-label-positive">Positive Sentiment</div>' : $json.overall_score <= -0.05 ? '<div class="score-label-negative">Negative Sentiment</div>' : '<div class="score-label-neutral">Neutral Sentiment</div>' }}
+        </div>
+
+        <!-- Stats row -->
+        <div class="stats-row">
+          <div class="stat-cell">
+            <div class="stat-number">{{ $json.total_reviews }}</div>
+            <div class="stat-label">Total Reviews</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-number" style="color:#057a55;">{{ $json.distribution.positive }}</div>
+            <div class="stat-label">Positive</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-number" style="color:#6b7280;">{{ $json.distribution.neutral }}</div>
+            <div class="stat-label">Neutral</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-number" style="color:#c81e1e;">{{ $json.distribution.negative }}</div>
+            <div class="stat-label">Negative</div>
+          </div>
+        </div>
+
+        <!-- Narrative -->
+        <div class="narrative-section">
+          <h2>Analysis Summary</h2>
+          <p>{{ ($json.narrative || 'No narrative available this week.').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }}</p>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-wrap">
+          <a class="cta-btn" href="https://review-radar.netlify.app/dashboard">View Full Dashboard</a>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>You're receiving this because you're a Review Radar Premium subscriber.<br />To stop weekly reports, remove your pharmacy URL from Settings.</p>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

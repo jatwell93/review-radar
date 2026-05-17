@@ -2,7 +2,7 @@
 # Deploy this repo as a Render web service.
 #
 # Required env vars (set in Render dashboard — NOT in this file):
-#   ANTHROPIC_API_KEY  — Anthropic API key for Claude Haiku narrative
+#   OPENROUTER_API_KEY — OpenRouter API key for Claude Haiku narrative
 #   ALLOWED_ORIGINS    — Comma-separated allowed origins, e.g.:
 #                        https://your-site.netlify.app,http://localhost:3000
 
@@ -23,7 +23,34 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: "3.11.0"
-      - key: ANTHROPIC_API_KEY
+      - key: OPENROUTER_API_KEY
         sync: false
       - key: ALLOWED_ORIGINS
         sync: false
+      - key: GOSOM_API_URL
+        sync: false
+        # Set to http://review-radar-gosom:8080 (Render internal DNS, paid plan Private Service)
+        # Or the public gosom service URL if on free tier (document as known risk)
+      - key: OUTSCRAPER_API_KEY
+        sync: false
+        # Optional — only required if Outscraper fallback is enabled.
+        # Leave unset to disable fallback (gosom-only mode).
+        # Get key from: https://app.outscraper.com/api-key
+      - key: N8N_WEBHOOK_SECRET
+        sync: false
+        # Shared secret between Render and n8n Cloud.
+        # Set in both Render dashboard and n8n workflow HTTP node headers.
+        # Generate: python -c "import secrets; print(secrets.token_urlsafe(32))"
+
+  # gosom scraper service — Dockerised, runs REST API for competitor review scraping
+  # Phase 3 plan 03-01. See gosom/Dockerfile for access control requirements.
+  - type: web
+    name: review-radar-gosom
+    runtime: docker
+    dockerfilePath: ./gosom/Dockerfile
+    # ACCESS CONTROL — see gosom/Dockerfile header for full guidance.
+    # Paid plan: set visibility to "Private" in Render dashboard → internal-only access.
+    # Free plan: public URL (known risk — migrate before commercial launch).
+    envVars:
+      - key: PORT
+        value: "8080"
