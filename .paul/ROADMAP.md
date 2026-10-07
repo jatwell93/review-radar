@@ -17,7 +17,7 @@ Phases: 2 of 2 complete
 | 1 | Free Tier MVP | 5 | ✅ Complete | 2026-05-02 |
 | 2 | Paid Tier Core | 5 | ✅ Complete | 2026-05-08 |
 | 3 | Competitor Analysis | 5 | ✅ Complete | 2026-05-10 |
-| 4 | Automation & Suite | TBD | Not started | - |
+| 4 | Automation & Suite | 4 | In Progress (1/4) | - |
 
 ## Phase Details
 
@@ -102,8 +102,11 @@ Phases: 2 of 2 complete
 - Pharm IQ suite billing consolidation ($60/yr bundle)
 
 **Plans:**
-- [ ] To be defined during /paul:plan for Phase 4
+- [x] 04-01: n8n infrastructure — scraper service extraction, pharmacy URL registration, auto-rerun backend endpoints
+- [ ] 04-02: n8n Cloud workflow + email delivery — scheduled workflow, weekly report email template
+- [ ] 04-03: Sentiment drop alerts — score delta detection, alert email via n8n
+- [ ] 04-04: Suite billing consolidation — Stripe $60/yr bundle, checkout flow update
 
 ---
 *Roadmap created: 2026-05-02*
-*Last updated: 2026-05-10 — Phase 3 complete*
+*Last updated: 2026-05-10 — Phase 4 plan 04-01 complete*
