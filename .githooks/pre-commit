@@ -1,0 +1,8 @@
+#!/bin/sh
+# Written by software-factory from factory.config.yml (default_branch, hooks.chain).
+# Change those and rerun the installer; edits here are overwritten.
+if [ "$(git branch --show-current)" = "main" ]; then
+  echo "pre-commit: refusing to commit on main. Run: git switch -c feature/<name>" >&2
+  exit 1
+fi
+exit 0

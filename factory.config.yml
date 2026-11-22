@@ -1,0 +1,26 @@
+# Written by software-factory init. Edit freely: init never overwrites this file.
+# Gates are what the agent must run before it pushes; review_bots lists the bots
+# the PR waits for before it is ready (logins without [bot]; any bot may comment).
+# protected_paths adds to
+# the factory baseline: the files the install step runs are listed because they
+# execute on the PR branch, so a task that needs a new dependency is an owner task.
+spec_source: paul
+owner: jatwell93
+default_branch: main
+gates:
+  - run: npm --prefix frontend exec tsc -- --noEmit
+  - run: python -m compileall -q backend/main.py backend/routers backend/services
+review_bots: []
+ci_workflows:
+  - Build
+runner:
+  node_version: '20'
+  python_version: '3.11'
+  install: npm ci --prefix frontend
+protected_paths:
+  - frontend/package.json
+  - frontend/package-lock.json
+  - backend/requirements.txt
+review_bots:
+  - cursor
+  - sentry
