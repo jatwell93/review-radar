@@ -16,6 +16,8 @@ backend/*.pyo
 backend/.pytest_cache/
 backend/dist/
 backend/*.egg-info/
+backend/routers/
+backend/services/
 
 # Environment
 .env
@@ -43,3 +45,7 @@ yarn-error.log*
 # Misc
 .vercel
 .netlify
+.serena
+
+# Agent skill installs
+.agents/

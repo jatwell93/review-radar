@@ -1,0 +1,10 @@
+#!/bin/sh
+# Written by software-factory from factory.config.yml (default_branch, hooks.chain).
+# Change those and rerun the installer; edits here are overwritten.
+while read -r local_ref local_sha remote_ref remote_sha; do
+  if [ "$remote_ref" = "refs/heads/main" ]; then
+    echo "pre-push: refusing to push to main ($local_ref). Push a feature branch and open a PR." >&2
+    exit 1
+  fi
+done
+exit 0
