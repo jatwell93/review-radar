@@ -168,6 +168,21 @@ function formatNextMonth(yyyyMM: string): string {
   return new Date(year, mon, 1).toLocaleDateString('en-AU', { month: 'long', year: 'numeric' })
 }
 
+function isGoogleMapsUrl(raw: string): boolean {
+  let u: URL
+  try {
+    u = new URL(raw)
+  } catch {
+    return false
+  }
+  if (u.protocol !== 'https:' || u.username || u.password) return false
+  if (u.hostname === 'maps.google.com') return true
+  return (
+    u.hostname === 'www.google.com' &&
+    (u.pathname === '/maps' || u.pathname.startsWith('/maps/'))
+  )
+}
+
 export default function CompetitorAnalyser() {
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(false)
@@ -233,10 +248,7 @@ export default function CompetitorAnalyser() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    if (
-      !url.startsWith('https://www.google.com/maps') &&
-      !url.startsWith('https://maps.google.com')
-    ) {
+    if (!isGoogleMapsUrl(url)) {
       setError('Please enter a valid Google Maps place URL')
       return
     }
