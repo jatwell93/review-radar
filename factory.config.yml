@@ -10,16 +10,18 @@ default_branch: main
 gates:
   - run: npm --prefix frontend exec tsc -- --noEmit
   - run: python -m compileall -q backend/main.py backend/routers backend/services
+  - run: python -m pytest backend -q
 ci_workflows:
   - CodeQL
 runner:
   node_version: '20'
   python_version: '3.11'
-  install: npm ci --prefix frontend
+  install: npm ci --prefix frontend && pip install -r backend/requirements-dev.txt
 protected_paths:
   - frontend/package.json
   - frontend/package-lock.json
   - backend/requirements.txt
+  - backend/requirements-dev.txt
 review_bots:
   - cursor
   - sentry
