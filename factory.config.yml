@@ -10,9 +10,8 @@ default_branch: main
 gates:
   - run: npm --prefix frontend exec tsc -- --noEmit
   - run: python -m compileall -q backend/main.py backend/routers backend/services
-review_bots: []
 ci_workflows:
-  - Build
+  - CodeQL
 runner:
   node_version: '20'
   python_version: '3.11'

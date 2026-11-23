@@ -10,7 +10,7 @@ name: Factory CI relay
 on:
   workflow_run:
     workflows:
-      - 'Build'
+      - 'CodeQL'
     types: [completed]
 
 permissions:
