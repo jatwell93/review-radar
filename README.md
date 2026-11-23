@@ -28,7 +28,7 @@ Turn your Google reviews into actionable insights. Upload your pharmacy's review
 review-radar/
 ├── frontend/          # Next.js app
 ├── backend/           # FastAPI service
-├── PLANNING.md        # Full planning document
+├── PLANNING.md        # Full planning document via PAUL
 └── README.md
 ```
 
