@@ -1,0 +1,10 @@
+# Test dependencies for the factory gate. Kept small on purpose: the heavy
+# runtime packages (sentence-transformers, keybert, supabase, openai) are not
+# installed on the runner, so tests stub those modules instead.
+pytest>=8
+fastapi==0.111.0
+httpx==0.27.0
+python-dotenv==1.0.1
+python-multipart==0.0.9
+python-dateutil>=2.8
+vaderSentiment==3.3.2
