@@ -18,6 +18,8 @@ backend/dist/
 backend/*.egg-info/
 backend/routers/
 backend/services/
+__pycache__/
+*.pyc
 
 # Environment
 .env
