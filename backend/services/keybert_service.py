@@ -1,12 +1,21 @@
-from keybert import KeyBERT
+from __future__ import annotations
 
-_model: KeyBERT | None = None
+# NOTE: `from keybert import KeyBERT` is deliberately NOT at module level.
+# Importing keybert pulls in torch/transformers (~hundreds of MB at import time).
+# This module is imported at app startup via the topics router, so a top-level
+# import would load torch on every cold start and risk missing Render's port-bind
+# deadline. Instead we import inside get_keybert() so torch loads lazily on the
+# first topics request only — the n8n automation endpoints never trigger it.
+
+_model = None
 
 
-def get_keybert() -> KeyBERT:
+def get_keybert():
     """Lazy-load a single KeyBERT instance. Thread-safe for read-only model inference."""
     global _model
     if _model is None:
+        from keybert import KeyBERT
+
         _model = KeyBERT(model="all-MiniLM-L6-v2")
     return _model
 

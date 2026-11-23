@@ -12,7 +12,7 @@ Create these in n8n Cloud Settings → Credentials:
 | Review Radar SMTP | SMTP | Host/port/username/password for SendGrid, Gmail, etc. |
 
 ## Required Environment Variable
-n8n Cloud Settings → Variables:
+Self-hosted (Docker): set as a container environment variable (compose `environment:` or `.env`). n8n Cloud: Settings → Variables (paid; change `$env.` to `$vars.` in the two HTTP nodes):
 - `RENDER_API_BASE_URL` = `https://review-radar-api.onrender.com` (your Render service URL)
 
 ## Email From Address

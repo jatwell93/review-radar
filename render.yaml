@@ -11,7 +11,11 @@ services:
     name: review-radar-api
     runtime: python
     rootDir: backend
-    buildCommand: pip install -r requirements.txt
+    # Install CPU-only PyTorch FIRST from the CPU wheel index, so the transitive
+    # torch dependency from keybert/sentence-transformers is already satisfied and
+    # pip does NOT pull the ~2GB CUDA/GPU build (useless on Render's CPU instances,
+    # and slow enough to import that cold starts miss the port-bind deadline).
+    buildCommand: pip install torch --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     # audit-added: reference the existing GET /health endpoint for application-level
     # health monitoring. Without this, Render only checks TCP port binding and will

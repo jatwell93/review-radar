@@ -9,30 +9,31 @@ See: .paul/PROJECT.md (updated 2026-05-08)
 
 ## Current Position
 
-Milestone: v0.3 Competitor Analysis — ✅ COMPLETE
-Phase: 4 of 4 (Automation & Suite) — Not started
-Plan: Not started
-Status: Ready to plan Phase 4
-Last activity: 2026-05-10 — Phase 3 complete. All 5 plans shipped. Transitioning to Phase 4.
+Milestone: v1.0 Automation & Suite
+Phase: 4 of 4 (Automation & Suite) — In Progress (1/4 plans complete)
+Plan: 04-02 APPLY in progress — Tasks 1+2 done, paused at Task 3 checkpoint (n8n human-action)
+Status: APPLY paused at checkpoint
+Last activity: 2026-10-17 — Local n8n (Docker) configured, workflow imported, test run returned [] (no eligible users yet)
 
 Progress:
 - Milestone v0.1: [██████████] 100% ✅
 - Milestone v0.2: [██████████] 100% ✅
 - Milestone v0.3: [██████████] 100% ✅
-- Phase 4: [░░░░░░░░░░] 0% (not started)
+- Phase 4: [██░░░░░░░░] 25%
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ✓     [Loop complete — ready for next PLAN]
+  ✓        ◐        ○     [APPLY: tasks 1-2 done, Task 3 checkpoint pending]
 ```
 
 ## Accumulated Context
 
 ### Decisions
 | Decision | Rationale | Impact |
+| 2026-05-10: Enterprise audit on 04-02-PLAN.md. Applied 2 must-have (HTML escaping for pharmacy_name/narrative in email; Log Failed Rerun Set node on IF false branch) + 3 strongly-recommended (fromEmail placeholder hardened; typeVersion drift guidance added; duplicate run risk documented in README). Deferred 3. Verdict: conditionally acceptable → approved. | Phase 4 | Email injection vector closed; failed reruns now produce structured user_id evidence; deploy-time blocker explicit |
 |----------|-----------|--------|
 | 2026-05-09: Enterprise audit on 03-03-PLAN.md. Applied 1 must-have (GapReview.text max_length=2000) + 3 strongly-recommended (GapRequest.name max_length=500, overall_rating/rating ge=0 le=5, IIFE in JSX → GapPanel component). Deferred 3. Verdict: conditionally acceptable → approved. | Phase 3 | Gap endpoint hardened against DoS via unbounded text; frontend gap panel idiomatic |
 | 2026-05-10: Enterprise audit on 03-04-PLAN.md. Applied 1 must-have (except HTTPException: raise before except Exception in _call_outscraper) + 3 strongly-recommended (_OUTSCRAPER_REQUEST_TIMEOUT/_REVIEW_LIMIT constants, logger.warning on fallback activation, verification checklist expanded). Deferred 3. Verdict: conditionally acceptable → approved. | Phase 3 | Outscraper fallback plan hardened against exception masking and invisible cost accumulation |
@@ -48,7 +49,7 @@ PLAN ──▶ APPLY ──▶ UNIFY
 | Stateless architecture (Phase 1) | Removes auth complexity, zero barrier to try | No Supabase until Phase 2 |
 
 ### Git State
-Last phase commit: fbca29e feat(02-paid-tier-core): Phase 2 complete — Paid Tier Core shipped
+Last phase commit: 4a1f27d feat(03-competitor-analysis): Phase 3 complete — Competitor Analysis shipped
 Branch: main
 Feature branches merged: none
 
@@ -70,10 +71,14 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-10
-Stopped at: Phase 3 complete — all 5 plans unified
-Next action: /paul:plan for Phase 4 (Automation & Suite)
-Resume file: .paul/ROADMAP.md
+Last session: 2026-10-17
+Stopped at: 04-02 Task 3 checkpoint (n8n end-to-end verify)
+Done: Task 1 (rerun returns email data), Task 2 (template, n8n README, workflow JSON). Fixes applied in 1239659: splitInBatches loop output (index 1), removed invalid $credentials header, $vars/$env for base URL, IF typeValidation loose.
+n8n: local Docker; RENDER_API_BASE_URL via compose .env (use $env.RENDER_API_BASE_URL in workflow, not $vars - Variables are paid-only).
+Remaining for checkpoint: (1) Supabase `ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS pharmacy_url TEXT;` (2) Render N8N_WEBHOOK_SECRET set + latest main deployed (3) premium test user with pharmacy_url (PATCH /automation/pharmacy-url) (4) Test workflow, confirm email + analyses row (5) set real fromEmail (6) activate only after verified.
+Next action: finish checkpoint, reply "approved", then /paul:unify .paul/phases/04-automation-suite/04-02-PLAN.md
+Resume file: .paul/phases/04-automation-suite/04-02-PLAN.md
+Machine note: moving dev to second machine (has n8n Docker). Copy .env files manually; reinstall global plugins (PAUL, caveman, context-mode).
 
 ---
-*STATE.md — Updated after every significant action*
+*STATE.md - Updated after every significant action*
