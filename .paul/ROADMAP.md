@@ -18,6 +18,7 @@ Phases: 2 of 2 complete
 | 2 | Paid Tier Core | 5 | ✅ Complete | 2026-05-08 |
 | 3 | Competitor Analysis | 5 | ✅ Complete | 2026-05-10 |
 | 4 | Automation & Suite | 4 | In Progress (1/4) | - |
+| 5 | Security alerts | 2 | Not started | - |
 
 ## Phase Details
 
@@ -107,6 +108,16 @@ Phases: 2 of 2 complete
 - [ ] 04-03: Sentiment drop alerts — score delta detection, alert email via n8n
 - [ ] 04-04: Suite billing consolidation — Stripe $60/yr bundle, checkout flow update
 
+### Phase 5: Security alerts
+
+**Goal:** Close the open GitHub code-scanning and Dependabot alerts.
+
+**Depends on:** Nothing (independent of Phase 4)
+
+**Plans:**
+- [ ] 05-01: Fix the three open code-scanning alerts for incomplete URL substring sanitization
+- [ ] 05-02: Land the open Dependabot dependency fixes (owner)
+
 ---
 *Roadmap created: 2026-05-02*
-*Last updated: 2026-05-10 — Phase 4 plan 04-01 complete*
+*Last updated: Phase 5 (Security alerts) added*

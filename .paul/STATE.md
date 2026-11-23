@@ -78,6 +78,7 @@ n8n: local Docker; RENDER_API_BASE_URL via compose .env (use $env.RENDER_API_BAS
 Remaining for checkpoint: (1) Supabase `ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS pharmacy_url TEXT;` (2) Render N8N_WEBHOOK_SECRET set + latest main deployed (3) premium test user with pharmacy_url (PATCH /automation/pharmacy-url) (4) Test workflow, confirm email + analyses row (5) set real fromEmail (6) activate only after verified.
 Next action: finish checkpoint, reply "approved", then /paul:unify .paul/phases/04-automation-suite/04-02-PLAN.md
 Resume file: .paul/phases/04-automation-suite/04-02-PLAN.md
+Phase 5 (Security alerts) planned: 05-01 (factory-run) and 05-02 (owner) in .paul/phases/05-security-alerts/. Loop position above still 04-02 APPLY; not changed.
 Machine note: moving dev to second machine (has n8n Docker). Copy .env files manually; reinstall global plugins (PAUL, caveman, context-mode).
 
 ---
