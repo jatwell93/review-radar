@@ -18,7 +18,7 @@ Phases: 2 of 2 complete
 | 2 | Paid Tier Core | 5 | ✅ Complete | 2026-05-08 |
 | 3 | Competitor Analysis | 5 | ✅ Complete | 2026-05-10 |
 | 4 | Automation & Suite | 4 | In Progress (1/4) | - |
-| 5 | Security alerts | 2 | Not started | - |
+| 5 | Security alerts | 2 | ✅ Complete (4 postcss alerts deferred) | 2026-11-24 |
 
 ## Phase Details
 
@@ -116,7 +116,7 @@ Phases: 2 of 2 complete
 
 **Plans:**
 - [x] 05-01: Fix the three open code-scanning alerts for incomplete URL substring sanitization
-- [ ] 05-02: Land the open Dependabot dependency fixes (owner)
+- [x] 05-02: Land the open Dependabot dependency fixes (owner)
 
 ---
 *Roadmap created: 2026-05-02*
