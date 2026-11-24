@@ -65,6 +65,7 @@ Feature branches merged: none
 | Google OAuth | Phase 2 scope | S | Future phase if demand |
 | Per-user analysis count limit | 02-03 audit | S | Before scale |
 | tsc gate in factory.config.yml needs `-p frontend` (run from repo root it only prints help) | 05-01 | XS | Owner edits protected config |
+| 4 open postcss Dependabot alerts (27, 46-48), copy bundled in next 15.5.29; needs newer Next or owner `overrides` in protected package.json | 05-02 | S | Next release or owner decision |
 | Render free tier KeyBERT OOM risk | Phase 2 plan 04 | XS | After deploy |
 
 ### Blockers/Concerns
@@ -81,6 +82,7 @@ Next action: finish checkpoint, reply "approved", then /paul:unify .paul/phases/
 Resume file: .paul/phases/04-automation-suite/04-02-PLAN.md
 Phase 5 (Security alerts) planned: 05-01 (factory-run) and 05-02 (owner) in .paul/phases/05-security-alerts/. Loop position above still 04-02 APPLY; not changed.
 Phase 5: 05-01 APPLY+UNIFY done 2026-11-23 by the factory (PLAN ✓ APPLY ✓ UNIFY ✓). Summary: .paul/phases/05-security-alerts/05-01-SUMMARY.md. Next: 05-02 (owner).
+Phase 5: 05-02 UNIFY done 2026-11-24 (PRs #25, #27, #28 merged by owner). Phase 5 complete. 4 postcss Dependabot alerts left open (bundled in Next 15.5.29). Summary: .paul/phases/05-security-alerts/05-02-SUMMARY.md.
 Machine note: moving dev to second machine (has n8n Docker). Copy .env files manually; reinstall global plugins (PAUL, caveman, context-mode).
 
 ---
