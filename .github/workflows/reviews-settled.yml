@@ -35,7 +35,7 @@ concurrency:
 
 jobs:
   settle:
-    uses: jatwell93/software-factory/.github/workflows/reviews-settled.yml@efb843562248e144610a0b05aefa5aa8fc4fbb58
+    uses: jatwell93/software-factory/.github/workflows/reviews-settled.yml@074c6f7d76fc0ee0ac52ca8b03009df95f81e93c
     with:
-      factory_ref: efb843562248e144610a0b05aefa5aa8fc4fbb58
+      factory_ref: 074c6f7d76fc0ee0ac52ca8b03009df95f81e93c
       pr: ${{ inputs.pr }}
