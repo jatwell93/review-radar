@@ -64,6 +64,7 @@ Feature branches merged: none
 | Multi-location support | Phase 2 scope | M | Phase 3 or standalone plan |
 | Google OAuth | Phase 2 scope | S | Future phase if demand |
 | Per-user analysis count limit | 02-03 audit | S | Before scale |
+| tsc gate in factory.config.yml needs `-p frontend` (run from repo root it only prints help) | 05-01 | XS | Owner edits protected config |
 | Render free tier KeyBERT OOM risk | Phase 2 plan 04 | XS | After deploy |
 
 ### Blockers/Concerns
@@ -79,6 +80,7 @@ Remaining for checkpoint: (1) Supabase `ALTER TABLE subscriptions ADD COLUMN IF 
 Next action: finish checkpoint, reply "approved", then /paul:unify .paul/phases/04-automation-suite/04-02-PLAN.md
 Resume file: .paul/phases/04-automation-suite/04-02-PLAN.md
 Phase 5 (Security alerts) planned: 05-01 (factory-run) and 05-02 (owner) in .paul/phases/05-security-alerts/. Loop position above still 04-02 APPLY; not changed.
+Phase 5: 05-01 APPLY+UNIFY done 2026-11-23 by the factory (PLAN ✓ APPLY ✓ UNIFY ✓). Summary: .paul/phases/05-security-alerts/05-01-SUMMARY.md. Next: 05-02 (owner).
 Machine note: moving dev to second machine (has n8n Docker). Copy .env files manually; reinstall global plugins (PAUL, caveman, context-mode).
 
 ---

@@ -115,7 +115,7 @@ Phases: 2 of 2 complete
 **Depends on:** Nothing (independent of Phase 4)
 
 **Plans:**
-- [ ] 05-01: Fix the three open code-scanning alerts for incomplete URL substring sanitization
+- [x] 05-01: Fix the three open code-scanning alerts for incomplete URL substring sanitization
 - [ ] 05-02: Land the open Dependabot dependency fixes (owner)
 
 ---

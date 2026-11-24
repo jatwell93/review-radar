@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from services.sentiment import score_review, classify
 from services.keybert_service import extract_topics
 from services.scraper import scrape_with_fallback
+from services.url_validation import is_google_maps_url
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field, field_validator
@@ -44,10 +45,7 @@ class CompetitorScrapeRequest(BaseModel):
     @field_validator("url")
     @classmethod
     def must_be_google_maps_url(cls, v):
-        if not (
-            v.startswith("https://www.google.com/maps")
-            or v.startswith("https://maps.google.com")
-        ):
+        if not is_google_maps_url(v):
             raise ValueError("URL must be a Google Maps place URL")
         return v
 

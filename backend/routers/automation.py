@@ -11,6 +11,7 @@ from supabase import create_client
 from services.scraper import scrape_with_fallback
 from services.sentiment import run_sentiment_pipeline
 from services.narrative import generate_narrative
+from services.url_validation import is_google_maps_url
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ class PharmacyUrlRequest(BaseModel):
     @field_validator("url")
     @classmethod
     def must_be_google_maps_url(cls, v):
-        if not (v.startswith("https://www.google.com/maps") or v.startswith("https://maps.google.com")):
+        if not is_google_maps_url(v):
             raise ValueError("URL must be a Google Maps place URL")
         return v
 
