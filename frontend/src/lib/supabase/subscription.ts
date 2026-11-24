@@ -5,7 +5,7 @@ export type SubscriptionStatus = 'active' | 'past_due' | 'canceled' | 'inactive'
 export async function getSubscriptionStatus(): Promise<SubscriptionStatus> {
   // Wrap in try/catch — Supabase query failure must not crash the dashboard page
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return 'inactive'
 
