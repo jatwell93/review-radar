@@ -13,7 +13,7 @@ Milestone: v1.0 Automation & Suite
 Phase: 4 of 4 (Automation & Suite) — In Progress (1/4 plans complete)
 Plan: 04-02 APPLY in progress — Tasks 1+2 done, paused at Task 3 checkpoint (n8n human-action)
 Status: APPLY paused at checkpoint
-Last activity: 2026-11-24 — phase 5 (security-alerts) archived by the factory
+Last activity: 2026-10-17 — Local n8n (Docker) configured, workflow imported, test run returned [] (no eligible users yet)
 
 Progress:
 - Milestone v0.1: [██████████] 100% ✅
@@ -74,8 +74,7 @@ None.
 ## Session Continuity
 
 Last session: 2026-10-17
-Stopped at: 2026-11-24 — phase 5 (security-alerts) archived by the factory
-Previously stopped at: 04-02 Task 3 checkpoint (n8n end-to-end verify)
+Stopped at: 04-02 Task 3 checkpoint (n8n end-to-end verify)
 Done: Task 1 (rerun returns email data), Task 2 (template, n8n README, workflow JSON). Fixes applied in 1239659: splitInBatches loop output (index 1), removed invalid $credentials header, $vars/$env for base URL, IF typeValidation loose.
 n8n: local Docker; RENDER_API_BASE_URL via compose .env (use $env.RENDER_API_BASE_URL in workflow, not $vars - Variables are paid-only).
 Remaining for checkpoint: (1) Supabase `ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS pharmacy_url TEXT;` (2) Render N8N_WEBHOOK_SECRET set + latest main deployed (3) premium test user with pharmacy_url (PATCH /automation/pharmacy-url) (4) Test workflow, confirm email + analyses row (5) set real fromEmail (6) activate only after verified.
