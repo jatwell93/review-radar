@@ -157,7 +157,7 @@ function HistoryList({ analyses }: { analyses: Analysis[] }) {
 }
 
 export default async function HistoryPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 

@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getSubscriptionStatus } from '@/lib/supabase/subscription'
 
 export default async function DashboardPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
@@ -16,14 +16,14 @@ export default async function DashboardPage() {
 
   async function logout() {
     'use server'
-    const supabase = createClient()
+    const supabase = await createClient()
     await supabase.auth.signOut()
     redirect('/login')
   }
 
   async function initiateUpgrade() {
     'use server'
-    const supabase = createClient()
+    const supabase = await createClient()
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) redirect('/login')
 
