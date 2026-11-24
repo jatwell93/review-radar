@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   change-ids:
-    uses: jatwell93/software-factory/.github/workflows/check-change-ids.yml@860961e71db1f6d89f3a26f7cac19841142e37c7
+    uses: jatwell93/software-factory/.github/workflows/check-change-ids.yml@efb843562248e144610a0b05aefa5aa8fc4fbb58
     with:
-      factory_ref: 860961e71db1f6d89f3a26f7cac19841142e37c7
+      factory_ref: efb843562248e144610a0b05aefa5aa8fc4fbb58
       pr: ${{ inputs.pr }}
