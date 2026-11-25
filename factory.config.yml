@@ -25,3 +25,6 @@ protected_paths:
 review_bots:
   - cursor
   - sentry
+# Sentry comments only on findings; its Seer check ends on every PR, so count that as its review.
+review_bot_checks:
+  sentry: Seer Code Review
