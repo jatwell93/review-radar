@@ -119,7 +119,10 @@ gives the literal path: write it in place of `$FACTORY_DIR`.
 
 1. `node "$FACTORY_DIR/scripts/check-no-go.js" --change <id>`. On any non-zero exit, do not
    push. Escalate with the listed paths (exit 1) or the error (exit 2, for
-   example an unreadable `factory.yml`).
+   example an unreadable `factory.yml`). Then run
+   `node "$FACTORY_DIR/scripts/check-ignored.js"`. Exit 1 means a source file you wrote
+   is ignored by git, so `git add` dropped it and the PR would miss it: do not push, and
+   do not `git add -f` it. Escalate with the listed files and the rule that ignores each.
 2. `git push -u origin HEAD`.
 3. Create the label if it is missing:
    `gh label create "<change-label>" --color 5319E7 --description "Factory task for <id>"`
@@ -179,11 +182,16 @@ line in STATE.md. The phase directory stays where it is.
    escalate and name it; do not write the summary yourself.
 5. **Write the marker.** Create `<phase-dir>/ARCHIVED` with exactly one line,
    `archived: <YYYY-MM-DD>` (today, UTC). It is the factory's file; PAUL ignores it.
-6. **Record it in STATE.md.** In `.paul/STATE.md` set the "Last activity" line to
-   `<date> — phase <N> (<id>) archived by the factory` and add the same under
-   "Session Continuity" ("Stopped at"). Change nothing else in that file.
-7. **Check what changed:** `git status` shows only the marker and `.paul/STATE.md`.
-   Anything else: undo it.
+6. **Record it in STATE.md, only when no other phase is active.** Another phase is
+   active when `.paul/ROADMAP.md` has an unchecked plan line in any other phase's
+   section. Then leave `.paul/STATE.md` untouched: its "Last activity" and "Stopped
+   at" describe the phase the owner is working in, not the one archived here, and the
+   marker is the record. Say in the PR body that STATE.md was left alone because
+   phase `<other>` is active. When no other phase is active, set the "Last activity"
+   line to `<date> — phase <N> (<id>) archived by the factory` and add the same
+   under "Session Continuity" ("Stopped at"). Change nothing else in that file.
+7. **Check what changed:** `git status` shows only the marker, plus
+   `.paul/STATE.md` when step 6 wrote it. Anything else: undo it.
 8. **Commit** `docs(paul): archive <id>`. On a per-change PR, add the
    trailer `Factory-Task: archive` (beside `Co-Authored-By`), so the archive
    gets its own babysit rounds.
